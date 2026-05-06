@@ -122,7 +122,7 @@ const GalaxyMap = () => {
         <ambientLight intensity={0.8} />
         <directionalLight position={[10, 10, 5]} intensity={2.5} color="#ffffff" />
         <directionalLight position={[-8, -3, -5]} intensity={0.6} color="#8899bb" />
-        <Stars radius={120} depth={60} count={5000} factor={2.5} saturation={0} fade speed={0.2} />
+        <Stars radius={100} depth={50} count={3000} factor={3} saturation={0} fade speed={0.2} />
         <OrbitControls
           enablePan={false}
           enableZoom={false}
