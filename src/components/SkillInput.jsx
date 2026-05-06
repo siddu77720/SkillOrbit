@@ -1,0 +1,125 @@
+import React, { useState } from 'react';
+import { useStore } from '../store/useStore';
+import { Plus, X, Star } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const PREBUILT_SKILLS = ["React", "Python", "Machine Learning", "SQL", "Node.js", "Figma", "Excel", "Java", "AWS", "Docker"];
+
+const SOURCE_COLORS = {
+  LinkedIn: 'bg-blue-500/20 text-blue-300',
+  GitHub: 'bg-gray-500/20 text-gray-300',
+  Certificate: 'bg-yellow-500/20 text-yellow-300',
+  Experience: 'bg-green-500/20 text-green-300',
+  Manual: 'bg-purple-500/20 text-purple-300',
+  Extracted: 'bg-cyan-500/20 text-cyan-300',
+};
+
+const SkillInput = () => {
+  const { skills, addSkill, removeSkill, assessmentScore } = useStore();
+  const [input, setInput] = useState('');
+
+  const handleAdd = (e) => {
+    e.preventDefault();
+    if (input.trim() && !skills.find(s => s.name.toLowerCase() === input.trim().toLowerCase())) {
+      addSkill({ name: input.trim(), source: 'Manual' });
+      setInput('');
+    }
+  };
+
+  const handlePrebuiltAdd = (skillName) => {
+    if (!skills.find(s => s.name === skillName)) {
+      addSkill({ name: skillName, source: 'Manual' });
+    }
+  };
+
+  const renderStars = (level) => {
+    return Array.from({ length: 5 }, (_, i) => (
+      <Star key={i} size={12} className={i < level ? 'text-yellow-400 fill-yellow-400' : 'text-gray-600'} />
+    ));
+  };
+
+  return (
+    <section id="skills" className="py-20 px-6 max-w-5xl mx-auto">
+      <div className="glass-card p-8">
+        <h2 className="text-3xl font-bold mb-6 glow-text">Your Skills Arsenal</h2>
+        
+        <form onSubmit={handleAdd} className="flex gap-4 mb-8">
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="E.g., Python, Project Management, Public Speaking..."
+            className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors"
+          />
+          <button type="submit" className="btn-primary flex items-center gap-2">
+            <Plus size={20} /> Add Skill
+          </button>
+        </form>
+
+        <div className="mb-8">
+          <p className="text-sm text-gray-400 mb-3">Suggested Skills:</p>
+          <div className="flex flex-wrap gap-2">
+            {PREBUILT_SKILLS.map(skill => (
+              <button 
+                key={skill} 
+                onClick={() => handlePrebuiltAdd(skill)}
+                className={`px-3 py-1 rounded-full text-sm border transition-all ${skills.find(s => s.name === skill) ? 'bg-purple-500/20 border-purple-500 text-purple-300' : 'border-white/20 text-gray-300 hover:border-cyan-400 hover:text-cyan-400'}`}
+              >
+                {skill}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          <AnimatePresence>
+            {skills.map((skill) => (
+              <motion.div 
+                key={skill.name}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                className="flex items-center justify-between p-4 bg-white/5 rounded-lg border border-white/10"
+              >
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <h4 className="font-semibold text-lg">{skill.name}</h4>
+                    <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${SOURCE_COLORS[skill.source] || SOURCE_COLORS.Manual}`}>
+                      {skill.source || 'Manual'}
+                    </span>
+                  </div>
+                  <div className="mt-2">
+                    {assessmentScore === 0 ? (
+                      <span className="text-xs text-gray-400 italic flex items-center gap-1">
+                        <Star size={10} className="text-gray-600" /> Not assessed yet — <a href="#assessment" className="text-cyan-400 hover:underline">Take Assessment</a>
+                      </span>
+                    ) : (
+                      <div className="flex items-center gap-1">
+                        {renderStars(skill.level)}
+                        <span className="text-xs text-gray-400 ml-2">Level {skill.level}/5</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <button 
+                  onClick={() => removeSkill(skill.name)}
+                  className="p-2 text-gray-400 hover:text-red-400 transition-colors"
+                >
+                  <X size={20} />
+                </button>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
+
+        {skills.length === 0 && (
+          <div className="text-center py-12 text-gray-500">
+            <p>No skills added yet. Use the profile builder above or add manually!</p>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};
+
+export default SkillInput;

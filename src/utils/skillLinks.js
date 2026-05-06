@@ -1,0 +1,36 @@
+export const SKILL_LINKS = {
+  'React': 'https://react.dev/learn',
+  'Python': 'https://docs.python.org/3/tutorial/',
+  'Machine Learning': 'https://www.coursera.org/learn/machine-learning',
+  'SQL': 'https://www.w3schools.com/sql/',
+  'AWS': 'https://aws.amazon.com/training/',
+  'Docker': 'https://docs.docker.com/get-started/',
+  'Node.js': 'https://nodejs.org/en/learn',
+  'Figma': 'https://help.figma.com/hc/en-us',
+  'Java': 'https://dev.java/learn/',
+  'Kubernetes': 'https://kubernetes.io/docs/tutorials/',
+  'JavaScript': 'https://javascript.info/',
+  'TypeScript': 'https://www.typescriptlang.org/docs/',
+  'Git': 'https://git-scm.com/book/en/v2',
+  'MongoDB': 'https://www.mongodb.com/docs/manual/',
+  'TensorFlow': 'https://www.tensorflow.org/tutorials',
+  'Excel': 'https://support.microsoft.com/en-us/excel',
+  'Linux': 'https://linuxjourney.com/',
+  'CI/CD': 'https://docs.github.com/en/actions',
+  'Azure': 'https://learn.microsoft.com/en-us/azure/',
+  'Terraform': 'https://developer.hashicorp.com/terraform/tutorials',
+  'HTML': 'https://developer.mozilla.org/en-US/docs/Web/HTML',
+  'CSS': 'https://developer.mozilla.org/en-US/docs/Web/CSS',
+  'Express': 'https://expressjs.com/en/starter/installing.html',
+  'Django': 'https://docs.djangoproject.com/en/stable/intro/tutorial01/',
+  'Spring': 'https://spring.io/guides',
+  'Kotlin': 'https://kotlinlang.org/docs/getting-started.html',
+  'Firebase': 'https://firebase.google.com/docs',
+  'PowerBI': 'https://learn.microsoft.com/en-us/power-bi/',
+  'Tableau': 'https://www.tableau.com/learn/training',
+  'JIRA': 'https://www.atlassian.com/software/jira/guides',
+};
+
+export function getSkillLink(skillName) {
+  return SKILL_LINKS[skillName] || `https://www.coursera.org/search?query=${encodeURIComponent(skillName)}`;
+}
