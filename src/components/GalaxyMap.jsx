@@ -8,8 +8,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Briefcase, CheckCircle, AlertCircle } from 'lucide-react';
 import * as THREE from 'three';
 
-// CORS-safe texture (earth blue marble — tinted gray to look like moon)
-const MOON_TEXTURE = 'https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg';
+// Local texture file (served from public folder)
+const MOON_TEXTURE = '/moon.jpg';
 
 // Realistic Moon in the center
 const Moon = () => {
