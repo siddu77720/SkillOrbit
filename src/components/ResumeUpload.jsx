@@ -64,7 +64,7 @@ const ResumeUpload = () => {
           experience: data.experience || [],
           userInfo: basicInfo,
           userSummary: summary,
-          education, projects, certs, resumeType
+          education, projects, resumeType
         });
       } else {
         setResumeData({
@@ -73,7 +73,7 @@ const ResumeUpload = () => {
           experience: resumeExp.map(e => ({ title: e.role, context: `${e.company} | ${e.duration}`, bullets: [e.description || 'Key contributor to team projects.'] })),
           userInfo: basicInfo,
           userSummary: summary,
-          education, projects, certs, resumeType
+          education, projects, resumeType
         });
       }
       setGenerated(true);
@@ -84,7 +84,7 @@ const ResumeUpload = () => {
         experience: resumeExp.map(e => ({ title: e.role, context: `${e.company} | ${e.duration}`, bullets: [e.description || 'Contributed to team objectives.'] })),
         userInfo: basicInfo,
         userSummary: summary,
-        education, projects, certs, resumeType
+        education, projects, resumeType
       });
       setGenerated(true);
     }

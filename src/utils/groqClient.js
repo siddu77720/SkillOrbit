@@ -1,6 +1,6 @@
 const API_KEY = import.meta.env.VITE_GROQ_API_KEY;
 const API_URL = 'https://api.groq.com/openai/v1/chat/completions';
-const MODEL = 'llama-3.1-8b-instant';
+const MODEL = 'llama3-8b-8192';
 
 async function fetchGroq(prompt, systemMessage = "You are an expert career counselor and technical AI assistant. Return only valid JSON.") {
   if (!API_KEY) {
