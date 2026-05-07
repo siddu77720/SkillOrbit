@@ -17,6 +17,7 @@ async function fetchGroq(prompt, systemMessage = "You are an expert career couns
       },
       body: JSON.stringify({
         model: MODEL,
+        temperature: 0,
         messages: [
           { role: 'system', content: systemMessage },
           { role: 'user', content: prompt }

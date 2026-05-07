@@ -44,7 +44,10 @@ const ProfileInput = () => {
   const [linkedinResult, setLinkedinResult] = useState(null);
 
   const analyzeLinkedin = async () => {
-    if (!linkedinUrl.trim() && !linkedinAbout.trim()) return;
+    if (!linkedinAbout.trim()) {
+      setError('Please paste your LinkedIn About/Summary section text to extract REAL skills. A URL alone cannot be scraped directly.');
+      return;
+    }
     setLoading(true);
     setError('');
     updateUserProfile({ linkedin: linkedinUrl });
