@@ -33,7 +33,7 @@ const GITHUB_LANG_MAP = {
 };
 
 const ProfileInput = () => {
-  const { addSkill, skills, userProfile, updateUserProfile, setProfileData, profileData, addActivity } = useStore();
+  const { addSkill, skills, userProfile, updateUserProfile, setProfileData, profileData, addActivity, clearSourceSkills } = useStore();
   const [activeTab, setActiveTab] = useState('linkedin');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');

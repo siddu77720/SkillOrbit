@@ -54,7 +54,11 @@ export const groqClient = {
 URL: ${linkedinUrl || 'not provided'}
 Their LinkedIn About/Summary section text: "${aboutText}"
 
-Based on this REAL profile text, extract the actual skills, role, and experience. Do NOT invent any skills that aren't mentioned or implied in the text.
+Based on this REAL profile text, extract the actual skills, role, and experience. 
+CRITICAL RULES FOR SKILLS:
+1. ONLY extract widely recognized technical or professional skills (e.g., React, Python, Project Management, SEO).
+2. DO NOT extract company names, internal project names, vague phrases, or random nouns (e.g., "HireHack", "Vajra", "Skill building", "Impactful initiatives" are INVALID).
+3. Do NOT invent any skills that aren't mentioned or implied in the text.
 Return JSON with keys: "role" (string, their job title from the text), "years" (number, years of experience mentioned or inferred), "skills" (array of objects with "name" and "percentage" between 60-98 representing confidence/proficiency based on text prominence).`;
     } else {
       prompt = `A user named "${userName || 'unknown'}" shared their LinkedIn profile URL: ${linkedinUrl}. We cannot scrape it, so DO NOT invent skills. Return JSON with keys: "role" (string, guess based on URL slug if possible, else "Professional"), "years" (number, 0), "skills" (an empty array [] - extremely important to return empty if no text is provided).`;
