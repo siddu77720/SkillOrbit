@@ -48,7 +48,7 @@ const SkillInput = () => {
 
         <div className="space-y-3">
           <AnimatePresence>
-            {skills.filter(s => s.source === 'LinkedIn' || s.source === 'GitHub' || s.source === 'Experience' || s.source === 'Certificate').map((skill) => (
+            {skills.filter(s => (s.source === 'LinkedIn' || s.source === 'GitHub' || s.source === 'Experience' || s.source === 'Certificate') && s.percentage && s.percentage !== 50).map((skill) => (
               <motion.div 
                 key={skill.name}
                 initial={{ opacity: 0, x: -20 }}
@@ -78,14 +78,14 @@ const SkillInput = () => {
           </AnimatePresence>
         </div>
 
-        {skills.filter(s => s.source === 'LinkedIn' || s.source === 'GitHub' || s.source === 'Experience' || s.source === 'Certificate').length === 0 && (
+        {skills.filter(s => (s.source === 'LinkedIn' || s.source === 'GitHub' || s.source === 'Experience' || s.source === 'Certificate') && s.percentage && s.percentage !== 50).length === 0 && (
           <div className="text-center py-12 text-gray-500">
             <p>No skills extracted yet. Use the profile builder above to extract real skills from your LinkedIn, GitHub, or Experience!</p>
           </div>
         )}
 
         {/* Summary Banner */}
-        {skills.filter(s => s.source === 'LinkedIn' || s.source === 'GitHub' || s.source === 'Experience' || s.source === 'Certificate').length > 0 && (
+        {skills.filter(s => (s.source === 'LinkedIn' || s.source === 'GitHub' || s.source === 'Experience' || s.source === 'Certificate') && s.percentage && s.percentage !== 50).length > 0 && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mt-8 p-4 bg-white/5 border border-white/10 rounded-xl flex flex-wrap gap-4 justify-center items-center text-sm">
             {linkedinCount > 0 && <span className="text-blue-400 font-bold">{linkedinCount} from LinkedIn</span>}
             {linkedinCount > 0 && githubCount > 0 && <span className="text-gray-600">|</span>}

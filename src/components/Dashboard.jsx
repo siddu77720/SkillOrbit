@@ -23,7 +23,7 @@ const Dashboard = () => {
   };
 
   // Skill source breakdown
-  const realSkills = skills.filter(s => s.source === 'LinkedIn' || s.source === 'GitHub' || s.source === 'Experience');
+  const realSkills = skills.filter(s => (s.source === 'LinkedIn' || s.source === 'GitHub' || s.source === 'Experience') && s.percentage && s.percentage !== 50);
   
   const sourceData = [
     { name: 'LinkedIn', value: realSkills.filter(s => s.source === 'LinkedIn').length, color: '#3b82f6' },

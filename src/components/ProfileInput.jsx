@@ -57,6 +57,7 @@ const ProfileInput = () => {
       if (res && res.skills && Array.isArray(res.skills)) {
         setLinkedinResult(res);
         setProfileData({ linkedinSkills: res.skills });
+        clearSourceSkills('LinkedIn');
         let added = 0;
         res.skills.forEach(s => {
           const skillName = typeof s === 'string' ? s : s.name;
@@ -113,6 +114,7 @@ const ProfileInput = () => {
       setGithubRepos(topRepos);
       setProfileData({ githubRepos: topRepos });
 
+      clearSourceSkills('GitHub');
       let added = 0;
       
       // Calculate real percentages based on repo frequency

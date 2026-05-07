@@ -15,14 +15,12 @@ export const useStore = create(
         if (state.skills.find(s => s.name.toLowerCase() === skill.name.toLowerCase())) return state;
         const source = skill.source || 'Manual';
         let percentage = skill.percentage;
-        if (!percentage) {
-          percentage = 50;
-          if (source === 'LinkedIn') percentage = Math.floor(Math.random() * 20) + 60; // fallback
-          if (source === 'GitHub') percentage = Math.floor(Math.random() * 20) + 70;
-          if (source === 'Experience') percentage = Math.floor(Math.random() * 15) + 85;
-        }
+        if (!percentage || percentage === 50) return state; // Ignore old/fake 50% data completely
         return { skills: [...state.skills, { ...skill, percentage, source }] };
       }),
+      clearSourceSkills: (source) => set((state) => ({
+        skills: state.skills.filter(s => s.source !== source)
+      })),
       removeSkill: (skillName) => set((state) => ({
         skills: state.skills.filter(s => s.name !== skillName)
       })),
