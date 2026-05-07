@@ -14,10 +14,13 @@ export const useStore = create(
       addSkill: (skill) => set((state) => {
         if (state.skills.find(s => s.name.toLowerCase() === skill.name.toLowerCase())) return state;
         const source = skill.source || 'Manual';
-        let percentage = 50;
-        if (source === 'LinkedIn') percentage = Math.floor(Math.random() * 20) + 60; // 60-80
-        if (source === 'GitHub') percentage = Math.floor(Math.random() * 20) + 70; // 70-90
-        if (source === 'Experience') percentage = Math.floor(Math.random() * 15) + 85; // 85-100
+        let percentage = skill.percentage;
+        if (!percentage) {
+          percentage = 50;
+          if (source === 'LinkedIn') percentage = Math.floor(Math.random() * 20) + 60; // fallback
+          if (source === 'GitHub') percentage = Math.floor(Math.random() * 20) + 70;
+          if (source === 'Experience') percentage = Math.floor(Math.random() * 15) + 85;
+        }
         return { skills: [...state.skills, { ...skill, percentage, source }] };
       }),
       removeSkill: (skillName) => set((state) => ({

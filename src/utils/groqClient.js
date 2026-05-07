@@ -54,16 +54,16 @@ URL: ${linkedinUrl || 'not provided'}
 Their LinkedIn About/Summary section text: "${aboutText}"
 
 Based on this REAL profile text, extract the actual skills, role, and experience. Do NOT invent any skills that aren't mentioned or implied in the text.
-Return JSON with keys: "role" (string, their job title from the text), "years" (number, years of experience mentioned or inferred), "skills" (array of 5-10 skill strings that are explicitly mentioned or clearly implied in the about text).`;
+Return JSON with keys: "role" (string, their job title from the text), "years" (number, years of experience mentioned or inferred), "skills" (array of objects with "name" and "percentage" between 60-98 representing confidence/proficiency based on text prominence).`;
     } else {
-      prompt = `A user named "${userName || 'unknown'}" shared their LinkedIn profile URL: ${linkedinUrl}. Based on this LinkedIn URL, intelligently infer what skills, role, and experience this person likely has. Use the URL slug to guess the profession. Return JSON with keys: "role" (string, likely job title), "years" (number, estimated years of experience), "skills" (array of 5-8 realistic technical/professional skill strings). Be realistic.`;
+      prompt = `A user named "${userName || 'unknown'}" shared their LinkedIn profile URL: ${linkedinUrl}. We cannot scrape it, so DO NOT invent skills. Return JSON with keys: "role" (string, guess based on URL slug if possible, else "Professional"), "years" (number, 0), "skills" (an empty array [] - extremely important to return empty if no text is provided).`;
     }
     const res = await fetchGroq(prompt);
     return res || { role: "Professional", years: 1, skills: ["Communication", "Problem Solving"] };
   },
 
   extractSkillsFromText: async (text) => {
-    const prompt = `Extract all technical skills, programming languages, frameworks, tools, and professional skills mentioned in this text: "${text}". Return JSON with a key "skills" which is an array of strings. Only include skills that are explicitly mentioned or strongly implied. Do NOT invent skills that aren't referenced.`;
+    const prompt = `Extract all technical skills, programming languages, frameworks, tools, and professional skills mentioned in this text: "${text}". Return JSON with a key "skills" which is an array of objects containing "name" (string) and "percentage" (number 60-98, estimating proficiency based on how deep the experience sounds). Only include skills explicitly mentioned.`;
     const res = await fetchGroq(prompt);
     return res || { skills: [] };
   },

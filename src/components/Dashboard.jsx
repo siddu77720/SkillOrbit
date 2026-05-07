@@ -9,12 +9,7 @@ import { User, Github, Award, Briefcase, Activity } from 'lucide-react';
 const Dashboard = () => {
   const { skills, assessmentScore, jobHistory, userProfile, profileData, activityFeed } = useStore();
 
-  const getTopJobs = () => {
-    return getJobListings(skills).map(job => ({
-      name: job.title,
-      match: calculateMatchScore(skills, job.skills)
-    })).sort((a, b) => b.match - a.match).slice(0, 5);
-  };
+
 
   const calculateOverallScore = () => {
     const skillCountScore = Math.min(skills.length, 30);
@@ -109,25 +104,10 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
-        {/* Top Job Matches */}
-        <div className="glass-card p-6">
-          <h3 className="text-xl font-bold mb-6">Top Job Matches</h3>
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={getTopJobs()} layout="vertical">
-                <XAxis type="number" hide />
-                <YAxis dataKey="name" type="category" width={150} tick={{ fill: '#fff', fontSize: 12 }} />
-                <Tooltip cursor={{ fill: 'rgba(255,255,255,0.1)' }} contentStyle={{ backgroundColor: '#04091a', border: '1px solid #7c3aed' }} />
-                <Bar dataKey="match" fill="#06b6d4" radius={[0, 4, 4, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
+      <div className="mb-10 max-w-2xl mx-auto">
         {/* Skill Sources Pie */}
         <div className="glass-card p-6">
-          <h3 className="text-xl font-bold mb-6">Skill Sources</h3>
+          <h3 className="text-xl font-bold mb-6 text-center">Skill Sources</h3>
           <div className="h-64 flex justify-center">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>

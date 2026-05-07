@@ -56,8 +56,10 @@ const ProfileInput = () => {
         setProfileData({ linkedinSkills: res.skills });
         let added = 0;
         res.skills.forEach(s => {
-          if (!skills.find(sk => sk.name.toLowerCase() === s.toLowerCase())) {
-            addSkill({ name: s, source: 'LinkedIn' });
+          const skillName = typeof s === 'string' ? s : s.name;
+          const skillPercentage = typeof s === 'string' ? null : s.percentage;
+          if (skillName && !skills.find(sk => sk.name.toLowerCase() === skillName.toLowerCase())) {
+            addSkill({ name: skillName, source: 'LinkedIn', percentage: skillPercentage });
             added++;
           }
         });
@@ -109,14 +111,23 @@ const ProfileInput = () => {
       setProfileData({ githubRepos: topRepos });
 
       let added = 0;
+      
+      // Calculate real percentages based on repo frequency
+      const langCounts = {};
       topRepos.forEach(repo => {
         const mapped = GITHUB_LANG_MAP[repo.language] || (repo.language !== 'Unknown' ? [repo.language] : []);
         mapped.forEach(s => {
-          if (!skills.find(sk => sk.name.toLowerCase() === s.toLowerCase())) {
-            addSkill({ name: s, source: 'GitHub' });
-            added++;
-          }
+          langCounts[s] = (langCounts[s] || 0) + 1;
         });
+      });
+
+      Object.keys(langCounts).forEach(s => {
+        if (!skills.find(sk => sk.name.toLowerCase() === s.toLowerCase())) {
+          // 1 repo = 60%, scaled up to 98% based on frequency
+          const freqPercentage = Math.min(98, 50 + (langCounts[s] * 15));
+          addSkill({ name: s, source: 'GitHub', percentage: freqPercentage });
+          added++;
+        }
       });
       if (added > 0) addActivity(`${added} skills detected from ${username}'s GitHub repos`);
     } catch (e) {
@@ -181,8 +192,10 @@ const ProfileInput = () => {
     setProfileData({ experiences: all });
     let added = 0;
     extracted.forEach(s => {
-      if (!skills.find(sk => sk.name.toLowerCase() === s.toLowerCase())) {
-        addSkill({ name: s, source: 'Experience' });
+      const skillName = typeof s === 'string' ? s : s.name;
+      const skillPercentage = typeof s === 'string' ? null : s.percentage;
+      if (skillName && !skills.find(sk => sk.name.toLowerCase() === skillName.toLowerCase())) {
+        addSkill({ name: skillName, source: 'Experience', percentage: skillPercentage });
         added++;
       }
     });
@@ -238,8 +251,10 @@ const ProfileInput = () => {
                   <p className="text-lg font-bold text-blue-400 mb-4">{linkedinResult.role} • {linkedinResult.years} years exp</p>
                   <p className="text-gray-400 text-sm mb-2">Extracted Skills:</p>
                   <div className="flex flex-wrap gap-2">
-                    {linkedinResult.skills.map(s => (
-                      <span key={s} className="px-3 py-1 bg-blue-500/20 text-blue-300 border border-blue-500/30 rounded-full text-sm">{s}</span>
+                    {linkedinResult.skills.map((s, i) => (
+                      <span key={i} className="px-3 py-1 bg-blue-500/20 text-blue-300 border border-blue-500/30 rounded-full text-sm">
+                        {typeof s === 'string' ? s : `${s.name} (${s.percentage}%)`}
+                      </span>
                     ))}
                   </div>
                 </div>
