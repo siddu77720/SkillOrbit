@@ -60,8 +60,8 @@ const ProfileInput = () => {
         clearSourceSkills('LinkedIn');
         let added = 0;
         res.skills.forEach(s => {
-          const skillName = typeof s === 'string' ? s : s.name;
-          const skillPercentage = typeof s === 'string' ? null : s.percentage;
+          const skillName = typeof s === 'string' ? s : (s.name || s.skill || s.title);
+          const skillPercentage = typeof s === 'string' ? 80 : (s.percentage || s.proficiency || 80);
           if (skillName && !skills.find(sk => sk.name.toLowerCase() === skillName.toLowerCase())) {
             addSkill({ name: skillName, source: 'LinkedIn', percentage: skillPercentage });
             added++;
@@ -197,8 +197,8 @@ const ProfileInput = () => {
     setProfileData({ experiences: all });
     let added = 0;
     extracted.forEach(s => {
-      const skillName = typeof s === 'string' ? s : s.name;
-      const skillPercentage = typeof s === 'string' ? null : s.percentage;
+      const skillName = typeof s === 'string' ? s : (s.name || s.skill || s.title);
+      const skillPercentage = typeof s === 'string' ? 85 : (s.percentage || s.proficiency || 85);
       if (skillName && !skills.find(sk => sk.name.toLowerCase() === skillName.toLowerCase())) {
         addSkill({ name: skillName, source: 'Experience', percentage: skillPercentage });
         added++;
@@ -260,11 +260,15 @@ const ProfileInput = () => {
                   </p>
                   <p className="text-gray-400 text-sm mb-2">Extracted Skills:</p>
                   <div className="flex flex-wrap gap-2">
-                    {linkedinResult.skills.map((s, i) => (
-                      <span key={i} className="px-3 py-1 bg-blue-500/20 text-blue-300 border border-blue-500/30 rounded-full text-sm">
-                        {typeof s === 'string' ? s : `${s.name} (${s.percentage}%)`}
-                      </span>
-                    ))}
+                    {linkedinResult.skills.map((s, i) => {
+                      const name = typeof s === 'string' ? s : (s.name || s.skill || s.title);
+                      const pct = typeof s === 'string' ? 80 : (s.percentage || s.proficiency || 80);
+                      return (
+                        <span key={i} className="px-3 py-1 bg-blue-500/20 text-blue-300 border border-blue-500/30 rounded-full text-sm">
+                          {name} ({pct}%)
+                        </span>
+                      );
+                    })}
                   </div>
                 </div>
               )}
