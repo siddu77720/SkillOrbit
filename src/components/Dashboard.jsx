@@ -23,12 +23,12 @@ const Dashboard = () => {
   };
 
   // Skill source breakdown
+  const realSkills = skills.filter(s => s.source === 'LinkedIn' || s.source === 'GitHub' || s.source === 'Experience');
+  
   const sourceData = [
-    { name: 'LinkedIn', value: skills.filter(s => s.source === 'LinkedIn').length, color: '#3b82f6' },
-    { name: 'GitHub', value: skills.filter(s => s.source === 'GitHub').length, color: '#6b7280' },
-    { name: 'Certificate', value: skills.filter(s => s.source === 'Certificate').length, color: '#eab308' },
-    { name: 'Experience', value: skills.filter(s => s.source === 'Experience').length, color: '#10b981' },
-    { name: 'Manual', value: skills.filter(s => s.source === 'Manual' || !s.source).length, color: '#7c3aed' },
+    { name: 'LinkedIn', value: realSkills.filter(s => s.source === 'LinkedIn').length, color: '#3b82f6' },
+    { name: 'GitHub', value: realSkills.filter(s => s.source === 'GitHub').length, color: '#6b7280' },
+    { name: 'Experience', value: realSkills.filter(s => s.source === 'Experience').length, color: '#10b981' },
   ].filter(d => d.value > 0);
 
   return (
@@ -39,15 +39,15 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
         <motion.div whileHover={{ scale: 1.05 }} className="glass-card p-6 text-center">
           <h3 className="text-gray-400 text-sm mb-2">Total Skills</h3>
-          <div className="text-4xl font-bold text-cyan-400">{skills.length}</div>
+          <div className="text-4xl font-bold text-cyan-400">{realSkills.length}</div>
         </motion.div>
         <motion.div whileHover={{ scale: 1.05 }} className="glass-card p-6 text-center">
           <h3 className="text-gray-400 text-sm mb-2">Best Skill</h3>
           <div className="text-4xl font-bold text-purple-500 glow-text flex flex-col items-center">
-            {skills.length > 0 ? (
+            {realSkills.length > 0 ? (
               <>
-                <span className="text-2xl">{skills.reduce((max, s) => max.percentage > s.percentage ? max : s, skills[0]).name}</span>
-                <span className="text-sm text-gray-400 mt-1">{skills.reduce((max, s) => max.percentage > s.percentage ? max : s, skills[0]).percentage}%</span>
+                <span className="text-2xl">{realSkills.reduce((max, s) => max.percentage > s.percentage ? max : s, realSkills[0]).name}</span>
+                <span className="text-sm text-gray-400 mt-1">{realSkills.reduce((max, s) => max.percentage > s.percentage ? max : s, realSkills[0]).percentage}%</span>
               </>
             ) : (
               <span className="text-2xl">None</span>
