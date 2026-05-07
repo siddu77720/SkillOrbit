@@ -60,7 +60,7 @@ Return JSON with keys: "role" (string, their job title from the text), "years" (
       prompt = `A user named "${userName || 'unknown'}" shared their LinkedIn profile URL: ${linkedinUrl}. We cannot scrape it, so DO NOT invent skills. Return JSON with keys: "role" (string, guess based on URL slug if possible, else "Professional"), "years" (number, 0), "skills" (an empty array [] - extremely important to return empty if no text is provided).`;
     }
     const res = await fetchGroq(prompt);
-    return res || { role: "Professional", years: 1, skills: ["Communication", "Problem Solving"] };
+    return res || { role: "Unknown", years: 0, skills: [] };
   },
 
   extractSkillsFromText: async (text) => {
@@ -72,33 +72,29 @@ Return JSON with keys: "role" (string, their job title from the text), "years" (
   extractSkillsFromProfile: async (profile) => {
     const prompt = `Extract a list of technical and soft skills from the following profile data: LinkedIn: ${profile.linkedin}, GitHub: ${profile.github}, Experience: ${profile.experience}, Certificates: ${profile.certificates}. Return a JSON object with a key "skills" which is an array of strings representing the extracted skills.`;
     const res = await fetchGroq(prompt);
-    return res || { skills: ["JavaScript", "React", "Node.js"] };
+    return res || { skills: [] };
   },
   
   generateLearningPath: async (missingSkills) => {
     const prompt = `Generate a learning path for these missing skills: ${missingSkills.join(', ')}. Return a JSON object with a key "courses" which is an array of objects containing "title", "platform", and "duration".`;
     const res = await fetchGroq(prompt);
-    return res || { courses: [{ title: "AWS for Beginners", platform: "YouTube", duration: "4 hours" }] };
+    return res || { courses: [] };
   },
 
   getDreamJobPath: async (targetJob, currentSkills) => {
     const prompt = `User wants to be a ${targetJob} and currently knows: ${currentSkills.join(', ')}. Create a step-by-step roadmap. Return a JSON object with keys: "requiredSkills" (array of strings), "missingSkills" (array of objects with "skill" and "priority" High/Medium/Low), and "roadmap" (array of objects with "month", "skill", "resource", "url" (MUST be EXACTLY a search link format like "https://www.coursera.org/search?query=Skill+Name" or "https://www.udemy.com/courses/search/?q=Skill+Name" to guarantee it works. DO NOT make up direct course links.), "estimatedTime").`;
     const res = await fetchGroq(prompt);
     return res || {
-      requiredSkills: ["Python", "SQL", "Machine Learning"],
-      missingSkills: [{ skill: "Machine Learning", priority: "High" }],
-      roadmap: [{ month: "Month 1", skill: "Machine Learning basics", resource: "Coursera ML by Andrew Ng", url: "https://www.coursera.org/specializations/machine-learning-introduction", estimatedTime: "4 weeks" }]
+      requiredSkills: [],
+      missingSkills: [],
+      roadmap: []
     };
   },
 
   getProjectRecommendations: async (skills) => {
     const prompt = `User has these skills: ${skills.join(', ')}. Recommend 5 project ideas to build. Return JSON with a key "projects", an array of objects containing "name", "emoji", "description" (2 lines), "techStack" (array), "difficulty" (Beginner/Intermediate/Advanced), and "estimatedTime".`;
     const res = await fetchGroq(prompt);
-    return res || {
-      projects: [
-        { name: "Portfolio Website", emoji: "🌐", description: "A personal portfolio to showcase your skills.", techStack: ["React", "CSS"], difficulty: "Beginner", estimatedTime: "1 week" }
-      ]
-    };
+    return res || { projects: [] };
   },
 
   generateAssessment: async (skills) => {

@@ -3,7 +3,7 @@ import { useStore } from '../store/useStore';
 import { Plus, X, Star } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const PREBUILT_SKILLS = ["React", "Python", "Machine Learning", "SQL", "Node.js", "Figma", "Excel", "Java", "AWS", "Docker"];
+
 
 const SOURCE_COLORS = {
   LinkedIn: 'bg-blue-500/20 text-blue-300',
@@ -17,20 +17,18 @@ const SOURCE_COLORS = {
 const SkillInput = () => {
   const { skills, addSkill, removeSkill, assessmentScore } = useStore();
   const [input, setInput] = useState('');
+  const [inputPercent, setInputPercent] = useState('50');
 
   const handleAdd = (e) => {
     e.preventDefault();
     if (input.trim() && !skills.find(s => s.name.toLowerCase() === input.trim().toLowerCase())) {
-      addSkill({ name: input.trim(), source: 'Manual' });
+      addSkill({ name: input.trim(), source: 'Manual', percentage: parseInt(inputPercent) || 50 });
       setInput('');
+      setInputPercent('50');
     }
   };
 
-  const handlePrebuiltAdd = (skillName) => {
-    if (!skills.find(s => s.name === skillName)) {
-      addSkill({ name: skillName, source: 'Manual' });
-    }
-  };
+
 
   const renderPercentage = (percentage) => {
     return (
@@ -60,28 +58,26 @@ const SkillInput = () => {
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="E.g., Python, Project Management, Public Speaking..."
+            placeholder="E.g., Python, Project Management..."
             className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors"
+            required
           />
+          <div className="flex items-center bg-white/5 border border-white/10 rounded-lg px-4 py-3">
+            <input
+              type="number"
+              min="1"
+              max="100"
+              value={inputPercent}
+              onChange={(e) => setInputPercent(e.target.value)}
+              className="w-16 bg-transparent text-white focus:outline-none text-center"
+              required
+            />
+            <span className="text-gray-400 ml-1">%</span>
+          </div>
           <button type="submit" className="btn-primary flex items-center gap-2">
-            <Plus size={20} /> Add Skill
+            <Plus size={20} /> Add
           </button>
         </form>
-
-        <div className="mb-8">
-          <p className="text-sm text-gray-400 mb-3">Suggested Skills:</p>
-          <div className="flex flex-wrap gap-2">
-            {PREBUILT_SKILLS.map(skill => (
-              <button 
-                key={skill} 
-                onClick={() => handlePrebuiltAdd(skill)}
-                className={`px-3 py-1 rounded-full text-sm border transition-all ${skills.find(s => s.name === skill) ? 'bg-purple-500/20 border-purple-500 text-purple-300' : 'border-white/20 text-gray-300 hover:border-cyan-400 hover:text-cyan-400'}`}
-              >
-                {skill}
-              </button>
-            ))}
-          </div>
-        </div>
 
         <div className="space-y-3">
           <AnimatePresence>
