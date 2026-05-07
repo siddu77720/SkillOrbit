@@ -32,11 +32,23 @@ const SkillInput = () => {
     }
   };
 
-  const renderStars = (level) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <Star key={i} size={12} className={i < level ? 'text-yellow-400 fill-yellow-400' : 'text-gray-600'} />
-    ));
+  const renderPercentage = (percentage) => {
+    return (
+      <div className="w-full max-w-xs mt-2">
+        <div className="flex justify-between text-xs mb-1">
+          <span className="text-gray-400">Proficiency</span>
+          <span className="text-cyan-400 font-bold">{percentage}%</span>
+        </div>
+        <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+          <div className="h-full bg-gradient-to-r from-purple-500 to-cyan-400" style={{ width: `${percentage}%` }}></div>
+        </div>
+      </div>
+    );
   };
+
+  const linkedinCount = skills.filter(s => s.source === 'LinkedIn').length;
+  const githubCount = skills.filter(s => s.source === 'GitHub').length;
+  const expCount = skills.filter(s => s.source === 'Experience').length;
 
   return (
     <section id="skills" className="py-20 px-6 max-w-5xl mx-auto">
@@ -88,17 +100,8 @@ const SkillInput = () => {
                       {skill.source || 'Manual'}
                     </span>
                   </div>
-                  <div className="mt-2">
-                    {assessmentScore === 0 ? (
-                      <span className="text-xs text-gray-400 italic flex items-center gap-1">
-                        <Star size={10} className="text-gray-600" /> Not assessed yet — <a href="#assessment" className="text-cyan-400 hover:underline">Take Assessment</a>
-                      </span>
-                    ) : (
-                      <div className="flex items-center gap-1">
-                        {renderStars(skill.level)}
-                        <span className="text-xs text-gray-400 ml-2">Level {skill.level}/5</span>
-                      </div>
-                    )}
+                  <div className="mt-2 w-full">
+                    {renderPercentage(skill.percentage || 50)}
                   </div>
                 </div>
                 <button 
@@ -116,6 +119,19 @@ const SkillInput = () => {
           <div className="text-center py-12 text-gray-500">
             <p>No skills added yet. Use the profile builder above or add manually!</p>
           </div>
+        )}
+
+        {/* Summary Banner */}
+        {skills.length > 0 && (
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mt-8 p-4 bg-white/5 border border-white/10 rounded-xl flex flex-wrap gap-4 justify-center items-center text-sm">
+            <span className="text-blue-400 font-bold">{linkedinCount} from LinkedIn</span>
+            <span className="text-gray-600">|</span>
+            <span className="text-white font-bold">{githubCount} from GitHub</span>
+            <span className="text-gray-600">|</span>
+            <span className="text-green-400 font-bold">{expCount} from Experience</span>
+            <span className="text-gray-600">|</span>
+            <span className="text-purple-400 font-bold">{skills.filter(s => s.source === 'Manual' || !s.source).length} Manual</span>
+          </motion.div>
         )}
       </div>
     </section>

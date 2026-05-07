@@ -13,25 +13,25 @@ export const useStore = create(
       skills: [],
       addSkill: (skill) => set((state) => {
         if (state.skills.find(s => s.name.toLowerCase() === skill.name.toLowerCase())) return state;
-        return { skills: [...state.skills, { ...skill, level: 0, source: skill.source || 'Manual' }] };
+        const source = skill.source || 'Manual';
+        let percentage = 50;
+        if (source === 'LinkedIn') percentage = Math.floor(Math.random() * 20) + 60; // 60-80
+        if (source === 'GitHub') percentage = Math.floor(Math.random() * 20) + 70; // 70-90
+        if (source === 'Experience') percentage = Math.floor(Math.random() * 15) + 85; // 85-100
+        return { skills: [...state.skills, { ...skill, percentage, source }] };
       }),
       removeSkill: (skillName) => set((state) => ({
         skills: state.skills.filter(s => s.name !== skillName)
       })),
-      updateSkillLevel: (skillName, level) => set((state) => ({
-        skills: state.skills.map(s => s.name === skillName ? { ...s, level } : s)
-      })),
-      updateAllSkillLevels: (level) => set((state) => ({
-        skills: state.skills.map(s => ({ ...s, level }))
+      updateSkillLevel: (skillName, percentage) => set((state) => ({
+        skills: state.skills.map(s => s.name === skillName ? { ...s, percentage } : s)
       })),
 
-      // Assessment
+      // Assessment (Independent)
       assessmentScore: 0,
       setAssessmentScore: (score) => {
-        const level = score <= 20 ? 1 : score <= 40 ? 2 : score <= 60 ? 3 : score <= 80 ? 4 : 5;
         set((state) => ({
-          assessmentScore: score,
-          skills: state.skills.map(s => ({ ...s, level }))
+          assessmentScore: score
         }));
       },
 

@@ -368,18 +368,8 @@ const ProfileInput = () => {
         </AnimatePresence>
       </div>
 
-      {/* Summary Banner */}
-      {skills.length > 0 && (
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mt-8 glass-card p-6 flex flex-wrap gap-4 justify-center items-center text-sm">
-          <span className="text-blue-400 font-bold">{linkedinCount} from LinkedIn</span>
-          <span className="text-gray-600">|</span>
-          <span className="text-white font-bold">{githubCount} from GitHub</span>
-          <span className="text-gray-600">|</span>
-          <span className="text-green-400 font-bold">{expCount} from Experience</span>
-          <span className="text-gray-600">|</span>
-          <span className="text-purple-400 font-bold">{skills.filter(s => s.source === 'Manual').length} Manual</span>
-        </motion.div>
-      )}
+      
+
     </section>
   );
 };

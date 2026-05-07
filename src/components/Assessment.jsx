@@ -41,7 +41,7 @@ const Assessment = () => {
     return (
       <section id="assessment" className="py-20 px-6 max-w-4xl mx-auto text-center">
         <h2 className="text-4xl font-bold mb-6 glow-text">Skill Assessment</h2>
-        <p className="text-gray-400 mb-4 max-w-2xl mx-auto">Take our AI-generated quiz to validate your skills from all sources. Your score determines your skill levels across the entire platform.</p>
+        <p className="text-gray-400 mb-4 max-w-2xl mx-auto">Take our AI-generated quiz to challenge yourself and find areas for improvement.</p>
         <p className="text-cyan-400 mb-8 text-sm">{skills.length} skills loaded from LinkedIn, GitHub, Certificates, Experience & Manual input</p>
         <button onClick={startQuiz} className="btn-primary text-xl px-10 py-4">Start Assessment ({skills.length} skills)</button>
       </section>
@@ -73,9 +73,9 @@ const Assessment = () => {
         </motion.div>
         <h2 className="text-4xl font-bold mb-4">Assessment Complete!</h2>
         <p className="text-2xl text-gray-300 mb-8">You scored {score} out of {questions.length * 10}</p>
-        <p className="text-gray-400 max-w-xl mx-auto mb-8">Your results have been verified and added to your Skill Profile. Your Dashboard stats have been updated.</p>
+        <p className="text-gray-400 max-w-xl mx-auto mb-8">Great job challenging yourself! Keep practicing to improve your skills.</p>
         <div className="flex gap-4 justify-center">
-          <a href="#dashboard" className="btn-primary">View Updated Dashboard</a>
+          <a href="#careerpath" className="btn-primary">View Career Path</a>
           <button onClick={retakeAssessment} className="btn-outline flex items-center gap-2">🔄 Retake Assessment</button>
         </div>
       </section>

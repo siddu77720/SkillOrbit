@@ -41,26 +41,27 @@ const Dashboard = () => {
       <h2 className="text-4xl font-bold mb-10 glow-text">Dashboard Insights</h2>
       
       {/* Stats Row */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-10">
-        <motion.div whileHover={{ scale: 1.05 }} className="glass-card p-5 text-center">
-          <h3 className="text-gray-400 text-xs mb-1">Total Skills</h3>
-          <div className="text-3xl font-bold text-cyan-400">{skills.length}</div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <motion.div whileHover={{ scale: 1.05 }} className="glass-card p-6 text-center">
+          <h3 className="text-gray-400 text-sm mb-2">Total Skills</h3>
+          <div className="text-4xl font-bold text-cyan-400">{skills.length}</div>
         </motion.div>
-        <motion.div whileHover={{ scale: 1.05 }} className="glass-card p-5 text-center">
-          <h3 className="text-gray-400 text-xs mb-1">Skill Score</h3>
-          <div className="text-3xl font-bold text-purple-500 glow-text">{calculateOverallScore()}</div>
+        <motion.div whileHover={{ scale: 1.05 }} className="glass-card p-6 text-center">
+          <h3 className="text-gray-400 text-sm mb-2">Best Skill</h3>
+          <div className="text-4xl font-bold text-purple-500 glow-text flex flex-col items-center">
+            {skills.length > 0 ? (
+              <>
+                <span className="text-2xl">{skills.reduce((max, s) => max.percentage > s.percentage ? max : s, skills[0]).name}</span>
+                <span className="text-sm text-gray-400 mt-1">{skills.reduce((max, s) => max.percentage > s.percentage ? max : s, skills[0]).percentage}%</span>
+              </>
+            ) : (
+              <span className="text-2xl">None</span>
+            )}
+          </div>
         </motion.div>
-        <motion.div whileHover={{ scale: 1.05 }} className="glass-card p-5 text-center">
-          <h3 className="text-gray-400 text-xs mb-1">Top Match</h3>
-          <div className="text-3xl font-bold text-green-400">{getTopJobs()[0]?.match || 0}%</div>
-        </motion.div>
-        <motion.div whileHover={{ scale: 1.05 }} className="glass-card p-5 text-center">
-          <h3 className="text-gray-400 text-xs mb-1">Assessment</h3>
-          <div className="text-3xl font-bold text-yellow-400">{assessmentScore}/100</div>
-        </motion.div>
-        <motion.div whileHover={{ scale: 1.05 }} className="glass-card p-5 text-center">
-          <h3 className="text-gray-400 text-xs mb-1">Applied</h3>
-          <div className="text-3xl font-bold text-cyan-400">{jobHistory.length}</div>
+        <motion.div whileHover={{ scale: 1.05 }} className="glass-card p-6 text-center">
+          <h3 className="text-gray-400 text-sm mb-2">Jobs Applied</h3>
+          <div className="text-4xl font-bold text-cyan-400">{jobHistory.length}</div>
         </motion.div>
       </div>
 

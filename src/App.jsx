@@ -3,7 +3,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import ProfileInput from './components/ProfileInput';
 import Dashboard from './components/Dashboard';
-import SkillScore from './components/SkillScore';
+
 import SkillInput from './components/SkillInput';
 import GalaxyMap from './components/GalaxyMap';
 import DreamJobMode from './components/DreamJobMode';
@@ -28,14 +28,13 @@ function App() {
       <Navbar />
       <Hero />
       <ProfileInput />
-      <Assessment />
       <SkillInput />
       <Dashboard />
-      <SkillScore />
       <GalaxyMap />
       <DreamJobMode />
       <ProjectRecommendations />
       <ResumeUpload />
+      <Assessment />
       <CareerPath />
       <History />
       <AIAssistant />
