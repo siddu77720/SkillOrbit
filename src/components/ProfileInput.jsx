@@ -248,7 +248,11 @@ const ProfileInput = () => {
               {linkedinResult && (
                 <div className="bg-white/5 rounded-xl p-6 border border-white/10">
                   <p className="text-gray-400 text-sm mb-1">Detected Role</p>
-                  <p className="text-lg font-bold text-blue-400 mb-4">{linkedinResult.role} • {linkedinResult.years} years exp</p>
+                  <p className="text-lg font-bold text-blue-400 mb-4">
+                    {typeof linkedinResult.role === 'string' ? linkedinResult.role : (linkedinResult.role?.currentRole || linkedinResult.role?.title || 'Professional')} 
+                    {' '}•{' '} 
+                    {typeof linkedinResult.years === 'object' ? (linkedinResult.years?.overallExperience || linkedinResult.years?.total || 0) : linkedinResult.years} years exp
+                  </p>
                   <p className="text-gray-400 text-sm mb-2">Extracted Skills:</p>
                   <div className="flex flex-wrap gap-2">
                     {linkedinResult.skills.map((s, i) => (
